@@ -57,42 +57,6 @@ const os = require("os");
 const server = http.createServer((req, res) => {
   const log = `${Date.now()}: ${req.url} New Req Received\n`;
   fs.appendFile("log.txt", log, (err, data) => {
-    switch (req.url) {
-      case "/":
-      case "/overview":
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end("<h1>This is the OVERVIEW</h1>");
-        break;
-      case "/product":
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end("<h1>This is the PRODUCT</h1>");
-        break;
-      case "/api":
-        fs.readFile(
-          `${__dirname}/starter/dev-data/data.json`,
-          "utf-8",
-          (err, data) => {
-            if (err) {
-              res.writeHead(500, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ error: "Internal Server Error" }));
-            } else {
-              res.writeHead(200, { "Content-Type": "application/json" });
-              res.end(data);
-            }
-          }
-        );
-        return; // Prevents sending another response
-      default:
-        res.writeHead(404, {
-          "Content-Type": "text/html",
-          "my-own-header": "hello-world",
-        });
-        res.end("<h1>Page not found</h1>");
-        return; // Prevents sending another response
-    }
-
-    // If we reach here, it means no early return was made
-    res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("Hello from the server!");
   });
 });
